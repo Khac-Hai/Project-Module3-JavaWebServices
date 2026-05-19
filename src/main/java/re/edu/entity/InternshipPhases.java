@@ -1,28 +1,47 @@
 package re.edu.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "internship_phases")
 @Getter
 @Setter
-@Table(name = "InternshipPhases")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class InternshipPhases {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long phaseId;
+    private Integer id;
 
-    @Column(nullable = false, unique = true)
-    private String phaseName;
+    @Column(nullable = false, length = 100)
+    private String name;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @Column(columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "start_date")
+    private LocalDate startDate;
+
+    @Column(name = "end_date")
+    private LocalDate endDate;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    @ManyToOne
+    @JoinColumn(name = "mentor_id")
+    private Mentors mentor;
+
 }

@@ -5,7 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import re.edu.exception.AccessDeniedExceptionCustom;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.dto.request.mentor.MentorRequest;
+import re.edu.dto.request.MentorRequest;
 import re.edu.dto.response.MentorResponse;
 import re.edu.entity.Mentors;
 import re.edu.util.enums.Role;
@@ -100,8 +100,8 @@ public class MentorServiceImpl implements MentorService {
 
         MentorResponse response = new MentorResponse();
 
-        response.setId(mentor.getMentorId());
-        response.setUserId(mentor.getUser().getUserId());
+        response.setId(mentor.getId());
+        response.setUserId(mentor.getUser().getId());
         response.setUsername(mentor.getUser().getUsername());
         response.setFullName(mentor.getUser().getFullName());
         response.setEmail(mentor.getUser().getEmail());
@@ -123,7 +123,7 @@ public class MentorServiceImpl implements MentorService {
         Users currentUser = userDetails.getUser();
 
         if (currentUser.getRole() == Role.MENTOR
-                && !mentor.getUser().getUserId().equals(currentUser.getUserId())) {
+                && !mentor.getUser().getId().equals(currentUser.getId())) {
 
             throw new AccessDeniedExceptionCustom(
                     "You can only view your own profile"
@@ -142,7 +142,7 @@ public class MentorServiceImpl implements MentorService {
         Users currentUser = userDetails.getUser();
 
         if (currentUser.getRole() == Role.MENTOR
-                && !mentor.getUser().getUserId().equals(currentUser.getUserId())) {
+                && !mentor.getUser().getId().equals(currentUser.getId())) {
 
             throw new AccessDeniedExceptionCustom(
                     "You can only update your own profile"

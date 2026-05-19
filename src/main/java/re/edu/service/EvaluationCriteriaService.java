@@ -1,6 +1,6 @@
 package re.edu.service;
 
-import re.edu.dto.request.evaluation.EvaluationCriteriaRequest;
+import re.edu.dto.request.EvaluationCriteriaRequest;
 import re.edu.dto.response.EvaluationCriteriaResponse;
 
 import java.util.List;

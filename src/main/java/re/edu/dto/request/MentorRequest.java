@@ -1,4 +1,4 @@
-package re.edu.dto.request.mentor;
+package re.edu.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -4,30 +4,36 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(
+        name = "round_criteria",
+        uniqueConstraints = {
+                @UniqueConstraint(columnNames = {"round_id", "criterion_id"})
+        }
+)
 @Getter
 @Setter
-@Table(name = "RoundCriteria",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"roundId", "criterionId"}))
 public class RoundCriteria {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roundCriterionId;
+    private Integer roundCriterionId;
 
     @ManyToOne
-    @JoinColumn(name = "roundId", nullable = false)
+    @JoinColumn(name = "round_id", nullable = false)
     private AssessmentRounds round;
 
     @ManyToOne
-    @JoinColumn(name = "criterionId", nullable = false)
+    @JoinColumn(name = "criterion_id", nullable = false)
     private EvaluationCriteria criterion;
 
-    @Column(nullable = false)
-    private Double weight;
+    @Column(nullable = false, precision = 5, scale = 2)
+    private BigDecimal weight;
 
     private LocalDateTime createdAt;
+
     private LocalDateTime updatedAt;
 }
-

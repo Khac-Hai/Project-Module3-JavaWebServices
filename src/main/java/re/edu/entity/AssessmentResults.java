@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class AssessmentResults {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long resultId;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "assignmentId", nullable = false)

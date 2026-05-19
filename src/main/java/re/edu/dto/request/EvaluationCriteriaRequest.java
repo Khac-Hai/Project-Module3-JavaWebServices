@@ -1,4 +1,4 @@
-package re.edu.dto.request.evaluation;
+package re.edu.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

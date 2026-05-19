@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 public class InternshipPhaseResponse {
 
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     private LocalDate startDate;

@@ -4,7 +4,7 @@ package re.edu.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.dto.request.internship.InternshipPhaseRequest;
+import re.edu.dto.request.InternshipPhaseRequest;
 import re.edu.dto.response.InternshipPhaseResponse;
 import re.edu.entity.InternshipPhases;
 import re.edu.repository.InternshipPhaseRepository;
@@ -52,7 +52,7 @@ public class InternshipPhaseServiceImpl
 
         InternshipPhases phase = new InternshipPhases();
 
-        phase.setPhaseName(request.getPhaseName());
+        phase.setName(request.getPhaseName());
         phase.setDescription(request.getDescription());
         phase.setStartDate(request.getStartDate());
         phase.setEndDate(request.getEndDate());
@@ -81,7 +81,7 @@ public class InternshipPhaseServiceImpl
                         )
                 );
 
-        phase.setPhaseName(request.getPhaseName());
+        phase.setName(request.getPhaseName());
         phase.setDescription(request.getDescription());
         phase.setStartDate(request.getStartDate());
         phase.setEndDate(request.getEndDate());
@@ -114,8 +114,8 @@ public class InternshipPhaseServiceImpl
         InternshipPhaseResponse response =
                 new InternshipPhaseResponse();
 
-        response.setId(phase.getPhaseId());
-        response.setName(phase.getPhaseName());
+        response.setId(phase.getId());
+        response.setName(phase.getName());
         response.setDescription(phase.getDescription());
         response.setStartDate(phase.getStartDate());
         response.setEndDate(phase.getEndDate());

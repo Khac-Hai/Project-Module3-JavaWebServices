@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import re.edu.exception.DuplicateResourceException;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.dto.request.evaluation.EvaluationCriteriaRequest;
+import re.edu.dto.request.EvaluationCriteriaRequest;
 import re.edu.dto.response.EvaluationCriteriaResponse;
 import re.edu.entity.EvaluationCriteria;
 
@@ -165,7 +165,7 @@ public class EvaluationCriteriaServiceImpl
                 new EvaluationCriteriaResponse();
 
         response.setId(
-                criterion.getCriterionId()
+                criterion.getId()
         );
 
         response.setCriterionName(

@@ -10,23 +10,24 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
-@Table(name = "AssessmentRounds")
+@Table(name = "assessment_rounds")
 public class AssessmentRounds {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long roundId;
-
+    private Integer id;
     @ManyToOne
-    @JoinColumn(name = "phaseId", nullable = false)
+    @JoinColumn(name = "phase_id",nullable = false)
     private InternshipPhases phase;
-
+    @Column(nullable = false, length = 100)
     private String roundName;
+    @Column(nullable = false)
     private LocalDate startDate;
+    @Column(nullable = false)
     private LocalDate endDate;
+    @Column(columnDefinition = "TEXT")
     private String description;
-    private Boolean isActive = true;
-
+    private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-}
 
+}

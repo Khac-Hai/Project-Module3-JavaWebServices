@@ -1,4 +1,4 @@
-package re.edu.dto.request.student;
+package re.edu.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;

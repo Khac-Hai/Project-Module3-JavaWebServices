@@ -1,8 +1,8 @@
 package re.edu.service;
 
-import re.edu.dto.request.auth.UpdatePasswordRequest;
-import re.edu.dto.request.auth.CreateUserRequest;
-import re.edu.dto.request.user.UpdateUserRequest;
+import re.edu.dto.request.UpdatePasswordRequest;
+import re.edu.dto.request.CreateUserRequest;
+import re.edu.dto.request.UpdateUserRequest;
 import re.edu.dto.response.UserResponse;
 import re.edu.util.enums.Role;
 

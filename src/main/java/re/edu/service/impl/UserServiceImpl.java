@@ -8,11 +8,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import re.edu.exception.AccessDeniedExceptionCustom;
-import re.edu.dto.request.auth.CreateUserRequest;
+import re.edu.dto.request.CreateUserRequest;
 import re.edu.exception.DuplicateResourceException;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.dto.request.auth.UpdatePasswordRequest;
-import re.edu.dto.request.user.UpdateUserRequest;
+import re.edu.dto.request.UpdatePasswordRequest;
+import re.edu.dto.request.UpdateUserRequest;
 import re.edu.dto.response.UserResponse;
 import re.edu.util.enums.Role;
 import re.edu.entity.Users;
@@ -208,8 +208,8 @@ public class UserServiceImpl implements UserService {
                         &&
                         targetUser.getRole() == Role.ADMIN
                         &&
-                        !actor.getUserId().equals(
-                                targetUser.getUserId()
+                        !actor.getId().equals(
+                                targetUser.getId()
                         )
         ) {
 

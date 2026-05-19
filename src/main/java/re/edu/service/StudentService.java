@@ -1,6 +1,6 @@
 package re.edu.service;
 
-import re.edu.dto.request.student.StudentRequest;
+import re.edu.dto.request.StudentRequest;
 import re.edu.dto.response.StudentResponse;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 package re.edu.service;
 
-import re.edu.dto.request.mentor.MentorRequest;
+import re.edu.dto.request.MentorRequest;
 import re.edu.dto.response.MentorResponse;
 import java.util.List;
 

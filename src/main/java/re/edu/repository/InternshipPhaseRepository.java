@@ -8,3 +8,5 @@ import re.edu.entity.InternshipPhases;
 public interface InternshipPhaseRepository
         extends JpaRepository<InternshipPhases, Integer> {
 }
+
+

@@ -7,12 +7,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import re.edu.config.jwt.JwtService;
-import re.edu.dto.request.auth.LoginRequest;
+import re.edu.dto.request.LoginRequest;
 import re.edu.dto.response.LoginResponse;
 import re.edu.dto.response.UserResponse;
 import re.edu.entity.Users;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.mapper.UserMapper;
 import re.edu.repository.UserRepository;
 import re.edu.service.AuthService;
 

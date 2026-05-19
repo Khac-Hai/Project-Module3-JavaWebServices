@@ -1,6 +1,6 @@
 package re.edu.service;
 
-import re.edu.dto.request.internship.InternshipPhaseRequest;
+import re.edu.dto.request.InternshipPhaseRequest;
 import re.edu.dto.response.InternshipPhaseResponse;
 
 import java.util.List;

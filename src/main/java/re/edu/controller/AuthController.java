@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import re.edu.dto.request.auth.LoginRequest;
+import re.edu.dto.request.LoginRequest;
 import re.edu.dto.response.LoginResponse;
 import re.edu.entity.Users;
 import re.edu.repository.UserRepository;

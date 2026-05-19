@@ -1,18 +1,19 @@
 package re.edu.dto.response;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import re.edu.util.enums.Role;
+import lombok.*;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class UserResponse {
-    private Long userId;
+
+    private Integer id;
     private String username;
     private String email;
     private String fullName;
-    private String role;
+    private Role role;
     private Boolean isActive;
-    private String phoneNumber;
 }

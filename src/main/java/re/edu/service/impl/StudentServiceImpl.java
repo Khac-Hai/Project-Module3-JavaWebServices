@@ -5,7 +5,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import re.edu.exception.ResourceNotFoundException;
-import re.edu.dto.request.student.StudentRequest;
+import re.edu.dto.request.StudentRequest;
 import re.edu.dto.response.StudentResponse;
 import re.edu.entity.Students;
 import re.edu.entity.Users;
@@ -107,7 +107,7 @@ public class StudentServiceImpl implements StudentService {
         StudentResponse response =
                 modelMapper.map(student, StudentResponse.class);
 
-        response.setUserId(student.getUser().getUserId());
+        response.setUserId(student.getUser().getId());
         response.setUsername(student.getUser().getUsername());
 
         return response;
@@ -128,8 +128,8 @@ public class StudentServiceImpl implements StudentService {
 
         if (role.equals("ROLE_STUDENT")) {
 
-            if (!student.getUser().getUserId()
-                    .equals(userDetails.getUser().getUserId())) {
+            if (!student.getUser().getId()
+                    .equals(userDetails.getUser().getId())) {
 
                 throw new RuntimeException("Access denied");
             }
@@ -151,8 +151,8 @@ public class StudentServiceImpl implements StudentService {
 
         if (role.equals("ROLE_STUDENT")) {
 
-            if (!student.getUser().getUserId()
-                    .equals(userDetails.getUser().getUserId())) {
+            if (!student.getUser().getId()
+                    .equals(userDetails.getUser().getId())) {
 
                 throw new RuntimeException("Access denied");
             }
