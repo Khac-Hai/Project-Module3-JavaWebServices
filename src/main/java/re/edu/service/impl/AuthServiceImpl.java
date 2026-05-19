@@ -14,6 +14,7 @@ import re.edu.entity.Users;
 import re.edu.exception.ResourceNotFoundException;
 import re.edu.repository.UserRepository;
 import re.edu.service.AuthService;
+import re.edu.mapper.UserMapper;
 
 @Service
 @RequiredArgsConstructor

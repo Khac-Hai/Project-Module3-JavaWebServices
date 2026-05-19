@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import re.edu.mapper.MapToAPIResponse;
 import re.edu.dto.request.UpdatePasswordRequest;
 import re.edu.dto.request.CreateUserRequest;
 import re.edu.dto.request.UpdateUserRequest;
