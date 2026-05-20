@@ -5,8 +5,7 @@ import org.springframework.stereotype.Repository;
 import re.edu.entity.InternshipPhases;
 
 @Repository
-public interface InternshipPhaseRepository
-        extends JpaRepository<InternshipPhases, Integer> {
+public interface InternshipPhaseRepository extends JpaRepository<InternshipPhases, Integer> {
 }
 
 

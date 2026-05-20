@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import re.edu.dto.request.InternshipPhaseRequest;
 import re.edu.dto.response.ApiResponse;
 import re.edu.service.InternshipPhaseService;
+import re.edu.mapper.MapToAPIResponse;
 
 @RestController
 @RequestMapping("/api/internship_phases")

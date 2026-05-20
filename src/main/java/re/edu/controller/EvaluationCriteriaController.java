@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import re.edu.dto.request.EvaluationCriteriaRequest;
 import re.edu.dto.response.ApiResponse;
 import re.edu.service.EvaluationCriteriaService;
+import re.edu.mapper.MapToAPIResponse;
 
 @RestController
 @RequestMapping("/api/evaluation_criteria")

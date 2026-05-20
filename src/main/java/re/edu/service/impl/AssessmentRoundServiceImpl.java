@@ -34,7 +34,7 @@ public class AssessmentRoundServiceImpl
         if (phaseId != null) {
 
             rounds = assessmentRoundRepository
-                    .findByPhase_PhaseId(phaseId);
+                    .findByPhase_Id(phaseId);
 
         } else {
 

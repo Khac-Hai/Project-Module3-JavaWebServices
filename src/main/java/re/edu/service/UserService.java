@@ -11,24 +11,10 @@ import java.util.List;
 public interface UserService {
     List<UserResponse> getAllUsers(Role role);
     UserResponse getUserById(Integer userId);
-    UserResponse updateUser(
-            Integer userId,
-            UpdateUserRequest req
-    );
-    String updateUserPassword(
-            Integer userId,
-            UpdatePasswordRequest req
-    );
-    String updateUserStatus(
-            Integer userId,
-            Boolean status
-    );
-    String updateUserRole(
-            Integer userId,
-            Role role
-    );
-    String deleteUser(
-            Integer userId
-    );
+    UserResponse updateUser(Integer userId, UpdateUserRequest req);
+    String updateUserPassword(Integer userId, UpdatePasswordRequest req);
+    String updateUserStatus(Integer userId, Boolean status);
+    String updateUserRole(Integer userId, Role role);
+    String deleteUser(Integer userId);
     UserResponse createUser(CreateUserRequest req);
 }

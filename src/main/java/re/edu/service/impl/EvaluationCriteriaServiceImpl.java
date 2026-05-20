@@ -165,7 +165,7 @@ public class EvaluationCriteriaServiceImpl
                 new EvaluationCriteriaResponse();
 
         response.setId(
-                criterion.getId()
+                criterion.getCriterionId()
         );
 
         response.setCriterionName(

@@ -8,12 +8,7 @@ import java.util.List;
 public interface InternshipPhaseService {
     List<InternshipPhaseResponse> getAllPhases();
     InternshipPhaseResponse getPhaseById(Integer phaseId);
-    InternshipPhaseResponse createPhase(
-            InternshipPhaseRequest request
-    );
-    InternshipPhaseResponse updatePhase(
-            Integer phaseId,
-            InternshipPhaseRequest request
-    );
+    InternshipPhaseResponse createPhase(InternshipPhaseRequest request);
+    InternshipPhaseResponse updatePhase(Integer phaseId, InternshipPhaseRequest request);
     void deletePhase(Integer phaseId);
 }

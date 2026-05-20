@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
     @Column(nullable = false, unique = true, length = 50)
     private String username;
     @Column(nullable = false, length = 255)
@@ -31,7 +31,6 @@ public class Users {
     private LocalDateTime updatedAt;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Students student;
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private Mentors mentor;
 }

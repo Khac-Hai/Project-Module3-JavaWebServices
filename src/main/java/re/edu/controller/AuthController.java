@@ -1,63 +1,56 @@
 package re.edu.controller;
 
-import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import re.edu.dto.request.LoginRequest;
-import re.edu.dto.response.LoginResponse;
-import re.edu.entity.Users;
-import re.edu.repository.UserRepository;
-import re.edu.config.jwt.JwtService;
-
+import re.edu.dto.request.VerifyTokenRequest;
+import re.edu.dto.response.JwtResponse;
+import re.edu.dto.response.VerifyTokenResponse;
+import re.edu.dto.response.UserResponse;
+import re.edu.service.AuthService;
 
 @RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
 public class AuthController {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final AuthService authService;
 
-    public AuthController(UserRepository userRepository,
-                          PasswordEncoder passwordEncoder,
-                          JwtService jwtService) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
+    /**
+     * LOGIN
+     */
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(
+            @Valid @RequestBody LoginRequest req
+    ) {
+        return ResponseEntity.ok(
+                authService.login(req)
+        );
     }
 
-    @PostMapping("/api/auth/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
-        Users user = userRepository.findUserByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    /**
+     * VERIFY TOKEN
+     */
+    @PostMapping("/verify")
+    public ResponseEntity<VerifyTokenResponse> verify(
+            @RequestBody VerifyTokenRequest req
+    ) {
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        String token = jwtService.generateAccessToken(user.getUsername());
-        return ResponseEntity.ok(new LoginResponse(token, user.getRole().name(), user.getUsername()));
+        return ResponseEntity.ok(
+                authService.verifyToken(req)
+        );
     }
 
-    @GetMapping("/api/auth/me")
-    public ResponseEntity<?> getMe(@RequestHeader("Authorization") String authHeader) {
-        // Lấy token từ header
-        String token = authHeader.replace("Bearer ", "");
+    /**
+     * CURRENT USER
+     */
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> me() {
 
-        // Validate token
-        if (!jwtService.validateToken(token)) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-        }
-
-        // Lấy username từ token
-        String username = jwtService.getUsernameFromToken(token);
-
-        // Tìm user trong DB
-        Users user = userRepository.findUserByUsername(username)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Trả về thông tin user
-        return ResponseEntity.ok(new LoginResponse(null, user.getRole().name(), user.getUsername()));
+        return ResponseEntity.ok(
+                authService.getCurrentUser()
+        );
     }
-
 }

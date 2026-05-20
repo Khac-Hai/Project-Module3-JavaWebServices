@@ -15,7 +15,7 @@ import java.util.List;
 public class EvaluationCriteria{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long criterionId;
     @Column(nullable = false, unique = true, length = 200)
     private String criterionName;
     @Column(columnDefinition = "TEXT")

@@ -8,6 +8,5 @@ public interface MentorService {
     List<MentorResponse> getAllMentors();
     MentorResponse getMentorById(Integer mentorId);
     MentorResponse createMentor(MentorRequest request);
-    MentorResponse updateMentor(Integer mentorId,
-                                MentorRequest request);
+    MentorResponse updateMentor(Integer mentorId, MentorRequest request);
 }
