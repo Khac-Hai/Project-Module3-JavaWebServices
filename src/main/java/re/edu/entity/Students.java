@@ -26,7 +26,7 @@ public class Students {
     @Column(length = 50)
     private String className;
     private LocalDate dateOfBirth;
-    @Column(length = 255)
+    @Column(length = 225)
     private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -7,7 +7,6 @@ import re.edu.exception.ResourceNotFoundException;
 import re.edu.dto.request.EvaluationCriteriaRequest;
 import re.edu.dto.response.EvaluationCriteriaResponse;
 import re.edu.entity.EvaluationCriteria;
-
 import re.edu.repository.EvaluationCriteriaRepository;
 import re.edu.service.EvaluationCriteriaService;
 
@@ -16,16 +15,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class EvaluationCriteriaServiceImpl
-        implements EvaluationCriteriaService {
+public class EvaluationCriteriaServiceImpl implements EvaluationCriteriaService {
 
-    private final EvaluationCriteriaRepository
-            evaluationCriteriaRepository;
+    private final EvaluationCriteriaRepository evaluationCriteriaRepository;
 
     @Override
-    public List<EvaluationCriteriaResponse>
-    getAllCriteria() {
-
+    public List<EvaluationCriteriaResponse> getAllCriteria() {
+        // Lấy tất cả tiêu chí đánh giá
         return evaluationCriteriaRepository.findAll()
                 .stream()
                 .map(this::toResponse)
@@ -33,180 +29,84 @@ public class EvaluationCriteriaServiceImpl
     }
 
     @Override
-    public EvaluationCriteriaResponse getCriterionById(
-            Integer criterionId
-    ) {
-
-        EvaluationCriteria criterion =
-                evaluationCriteriaRepository
-                        .findById(criterionId)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Evaluation criteria not found"
-                                )
-                        );
-
+    public EvaluationCriteriaResponse getCriterionById(Integer criterionId) {
+        // Tìm tiêu chí theo ID
+        EvaluationCriteria criterion = evaluationCriteriaRepository.findById(criterionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy tiêu chí đánh giá"));
         return toResponse(criterion);
     }
 
     @Override
-    public EvaluationCriteriaResponse createCriterion(
-            EvaluationCriteriaRequest request
-    ) {
-
+    public EvaluationCriteriaResponse createCriterion(EvaluationCriteriaRequest request) {
         validateCreateRequest(request);
 
-        if (evaluationCriteriaRepository
-                .existsByCriterionName(
-                        request.getCriterionName()
-                )) {
-
-            throw new DuplicateResourceException(
-                    "Criterion name already exists"
-            );
+        // Kiểm tra trùng tên
+        if (evaluationCriteriaRepository.existsByCriterionName(request.getCriterionName())) {
+            throw new DuplicateResourceException("Tên tiêu chí đã tồn tại");
         }
 
-        EvaluationCriteria criterion =
-                new EvaluationCriteria();
-
-        criterion.setCriterionName(
-                request.getCriterionName()
-        );
-
-        criterion.setDescription(
-                request.getDescription()
-        );
-
-        criterion.setMaxScore(
-                request.getMaxScore()
-        );
-
+        // Tạo mới tiêu chí
+        EvaluationCriteria criterion = new EvaluationCriteria();
+        criterion.setCriterionName(request.getCriterionName());
+        criterion.setDescription(request.getDescription());
+        criterion.setMaxScore(request.getMaxScore());
         criterion.setCreatedAt(LocalDateTime.now());
         criterion.setUpdatedAt(LocalDateTime.now());
 
-        return toResponse(
-                evaluationCriteriaRepository
-                        .save(criterion)
-        );
+        return toResponse(evaluationCriteriaRepository.save(criterion));
     }
 
     @Override
-    public EvaluationCriteriaResponse updateCriterion(
-            Integer criterionId,
-            EvaluationCriteriaRequest request
-    ) {
+    public EvaluationCriteriaResponse updateCriterion(Integer criterionId, EvaluationCriteriaRequest request) {
+        EvaluationCriteria criterion = evaluationCriteriaRepository.findById(criterionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy tiêu chí đánh giá"));
 
-        EvaluationCriteria criterion =
-                evaluationCriteriaRepository
-                        .findById(criterionId)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Evaluation criteria not found"
-                                )
-                        );
-
-        if (request.getCriterionName() != null
-                && !request.getCriterionName().isBlank()) {
-
-            criterion.setCriterionName(
-                    request.getCriterionName()
-            );
-        }
-
-        if (request.getDescription() != null) {
-
-            criterion.setDescription(
-                    request.getDescription()
-            );
-        }
-
+        // Cập nhật các field nếu có trong request
+        if (isValid(request.getCriterionName())) criterion.setCriterionName(request.getCriterionName());
+        if (request.getDescription() != null) criterion.setDescription(request.getDescription());
         if (request.getMaxScore() != null) {
-
             if (request.getMaxScore().doubleValue() <= 0) {
-
-                throw new IllegalArgumentException(
-                        "Max score must be greater than 0"
-                );
+                throw new IllegalArgumentException("Điểm tối đa phải lớn hơn 0");
             }
-
-            criterion.setMaxScore(
-                    request.getMaxScore()
-            );
+            criterion.setMaxScore(request.getMaxScore());
         }
 
         criterion.setUpdatedAt(LocalDateTime.now());
-
-        return toResponse(
-                evaluationCriteriaRepository
-                        .save(criterion)
-        );
+        return toResponse(evaluationCriteriaRepository.save(criterion));
     }
 
     @Override
     public void deleteCriterion(Integer criterionId) {
-
-        EvaluationCriteria criterion =
-                evaluationCriteriaRepository
-                        .findById(criterionId)
-                        .orElseThrow(() ->
-                                new ResourceNotFoundException(
-                                        "Evaluation criteria not found"
-                                )
-                        );
-
+        EvaluationCriteria criterion = evaluationCriteriaRepository.findById(criterionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy tiêu chí đánh giá"));
         evaluationCriteriaRepository.delete(criterion);
     }
 
-    private EvaluationCriteriaResponse toResponse(
-            EvaluationCriteria criterion
-    ) {
-
-        EvaluationCriteriaResponse response =
-                new EvaluationCriteriaResponse();
-
-        response.setId(
-                criterion.getCriterionId()
-        );
-
-        response.setCriterionName(
-                criterion.getCriterionName()
-        );
-
-        response.setDescription(
-                criterion.getDescription()
-        );
-
-        response.setMaxScore(
-                criterion.getMaxScore()
-        );
-
-        return response;
+    // Convert entity -> response DTO (dùng builder cho gọn gàng)
+    private EvaluationCriteriaResponse toResponse(EvaluationCriteria criterion) {
+        return EvaluationCriteriaResponse.builder()
+                .id(criterion.getCriterionId())
+                .criterionName(criterion.getCriterionName())
+                .description(criterion.getDescription())
+                .maxScore(criterion.getMaxScore())
+                .build();
     }
 
-    private void validateCreateRequest(
-            EvaluationCriteriaRequest request
-    ) {
-
-        if (request.getCriterionName() == null
-                || request.getCriterionName().isBlank()) {
-
-            throw new IllegalArgumentException(
-                    "Criterion name is required"
-            );
+    // Validate dữ liệu khi tạo mới
+    private void validateCreateRequest(EvaluationCriteriaRequest request) {
+        if (!isValid(request.getCriterionName())) {
+            throw new IllegalArgumentException("Tên tiêu chí là bắt buộc");
         }
-
         if (request.getMaxScore() == null) {
-
-            throw new IllegalArgumentException(
-                    "Max score is required"
-            );
+            throw new IllegalArgumentException("Điểm tối đa là bắt buộc");
         }
-
         if (request.getMaxScore().doubleValue() <= 0) {
-
-            throw new IllegalArgumentException(
-                    "Max score must be greater than 0"
-            );
+            throw new IllegalArgumentException("Điểm tối đa phải lớn hơn 0");
         }
+    }
+
+    // Helper check chuỗi hợp lệ
+    private boolean isValid(String value) {
+        return value != null && !value.isBlank();
     }
 }

@@ -11,7 +11,7 @@ import re.edu.entity.Students;
 import re.edu.entity.Users;
 import re.edu.repository.StudentRepository;
 import re.edu.repository.UserRepository;
-import re.edu.config.security.CustomUserDetails;
+import re.edu.config.custom.CustomUserDetails;
 import re.edu.service.StudentService;
 
 import java.util.List;
@@ -26,35 +26,31 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponse> getAllStudents() {
-
-        List<Students> students = studentRepository.findAll();
-
-        return students.stream()
+        // Lấy tất cả sinh viên
+        return studentRepository.findAll()
+                .stream()
                 .map(this::toResponse)
                 .toList();
     }
 
     @Override
     public StudentResponse getStudentById(Integer studentId) {
-
+        // Tìm sinh viên theo ID
         Students student = studentRepository.findById(studentId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sinh viên"));
 
         checkViewPermission(student);
-
         return toResponse(student);
     }
 
     @Override
     public StudentResponse createStudent(StudentRequest request) {
-
+        // Lấy user liên kết
         Users user = userRepository.findById(request.getUserId())
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("User not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy người dùng"));
 
+        // Tạo mới sinh viên
         Students student = new Students();
-
         student.setUser(user);
         student.setStudentCode(request.getStudentCode());
         student.setMajor(request.getMajor());
@@ -62,100 +58,61 @@ public class StudentServiceImpl implements StudentService {
         student.setDateOfBirth(request.getDateOfBirth());
         student.setAddress(request.getAddress());
 
-        return toResponse(
-                studentRepository.save(student)
-        );
+        return toResponse(studentRepository.save(student));
     }
 
     @Override
-    public StudentResponse updateStudent(Integer studentId,
-                                         StudentRequest request) {
-
+    public StudentResponse updateStudent(Integer studentId, StudentRequest request) {
         Students student = studentRepository.findById(studentId)
-                .orElseThrow(() ->
-                        new ResourceNotFoundException("Student not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Không tìm thấy sinh viên"));
 
         checkUpdatePermission(student);
 
-        if (request.getStudentCode() != null) {
-            student.setStudentCode(request.getStudentCode());
-        }
+        // Cập nhật các field nếu có trong request
+        if (request.getStudentCode() != null) student.setStudentCode(request.getStudentCode());
+        if (request.getMajor() != null) student.setMajor(request.getMajor());
+        if (request.getClassName() != null) student.setClassName(request.getClassName());
+        if (request.getDateOfBirth() != null) student.setDateOfBirth(request.getDateOfBirth());
+        if (request.getAddress() != null) student.setAddress(request.getAddress());
 
-        if (request.getMajor() != null) {
-            student.setMajor(request.getMajor());
-        }
-
-        if (request.getClassName() != null) {
-            student.setClassName(request.getClassName());
-        }
-
-        if (request.getDateOfBirth() != null) {
-            student.setDateOfBirth(request.getDateOfBirth());
-        }
-
-        if (request.getAddress() != null) {
-            student.setAddress(request.getAddress());
-        }
-
-        return toResponse(
-                studentRepository.save(student)
-        );
+        return toResponse(studentRepository.save(student));
     }
 
+    // Convert entity -> response DTO (dùng ModelMapper + bổ sung field từ User)
     private StudentResponse toResponse(Students student) {
-
-        StudentResponse response =
-                modelMapper.map(student, StudentResponse.class);
-
+        StudentResponse response = modelMapper.map(student, StudentResponse.class);
         response.setUserId(student.getUser().getId());
         response.setUsername(student.getUser().getUsername());
-
         return response;
     }
 
+    // Kiểm tra quyền xem hồ sơ
     private void checkViewPermission(Students student) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        CustomUserDetails userDetails =
-                (CustomUserDetails) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
-        String role = userDetails.getAuthorities()
-                .iterator()
-                .next()
-                .getAuthority();
-
-        if (role.equals("ROLE_STUDENT")) {
-
-            if (!student.getUser().getId()
-                    .equals(userDetails.getUser().getId())) {
-
-                throw new RuntimeException("Access denied");
-            }
+        if ("ROLE_STUDENT".equals(role) &&
+                !student.getUser().getId().equals(userDetails.getUser().getId())) {
+            throw new RuntimeException("Bạn chỉ có thể xem hồ sơ của chính mình");
         }
     }
 
+    // Kiểm tra quyền cập nhật hồ sơ
     private void checkUpdatePermission(Students student) {
+        CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
 
-        CustomUserDetails userDetails =
-                (CustomUserDetails) SecurityContextHolder
-                        .getContext()
-                        .getAuthentication()
-                        .getPrincipal();
+        String role = userDetails.getAuthorities().iterator().next().getAuthority();
 
-        String role = userDetails.getAuthorities()
-                .iterator()
-                .next()
-                .getAuthority();
-
-        if (role.equals("ROLE_STUDENT")) {
-
-            if (!student.getUser().getId()
-                    .equals(userDetails.getUser().getId())) {
-
-                throw new RuntimeException("Access denied");
-            }
+        if ("ROLE_STUDENT".equals(role) &&
+                !student.getUser().getId().equals(userDetails.getUser().getId())) {
+            throw new RuntimeException("Bạn chỉ có thể cập nhật hồ sơ của chính mình");
         }
     }
 }

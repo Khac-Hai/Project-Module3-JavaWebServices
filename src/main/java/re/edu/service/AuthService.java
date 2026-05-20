@@ -9,8 +9,6 @@ import re.edu.dto.response.VerifyTokenResponse;
 import re.edu.dto.response.UserResponse;
 
 public interface AuthService {
-
-    UserResponse register(CreateUserRequest req);
     JwtResponse login(LoginRequest req);
     VerifyTokenResponse verifyToken(VerifyTokenRequest req);
     UserResponse getCurrentUser();

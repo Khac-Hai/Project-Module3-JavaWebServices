@@ -23,7 +23,7 @@ import re.edu.dto.response.VerifyTokenResponse;
 import re.edu.dto.response.UserResponse;
 import re.edu.entity.Users;
 import re.edu.repository.UserRepository;
-import re.edu.config.jwt.JwtTokenProvider;
+import re.edu.config.jwt.JwtProvider;
 import re.edu.service.AuthService;
 
 import java.util.Date;
@@ -38,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final JwtTokenProvider jwtProvider;
+    private final JwtProvider jwtProvider;
 
     private final ModelMapper modelMapper;
 

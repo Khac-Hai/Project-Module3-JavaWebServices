@@ -90,8 +90,7 @@ public class UserController {
      * PUT /api/users/{userId}
      */
     @PutMapping("/{userId}")
-    public ResponseEntity<ApiResponse>
-    updateUser(
+    public ResponseEntity<ApiResponse> updateUser(
             @PathVariable Integer userId,
             @Valid
             @RequestBody
